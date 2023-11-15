@@ -22,22 +22,28 @@ export default function ToDoDisplay({ toDos, onDelete, onEdit}: ToDoDisplayProps
     const handleEditStart = (index: number, task:string) => {
         setEditableIndex(index)
         setEditedTask(task)
+       
     }
 
     const handleEditCancel = () => {
         setEditableIndex(null)
         setEditedTask('')
+        
     }
     const handleEditSave = (index: number) => {
         onEdit(index, editedTask)
         setEditableIndex(null)
         setEditedTask('')
+       
     }
     // const flashMessage = (newMessage:string|null, newCategory:CategoryType|null): void => {
     //     setMessage(newMessage)
     //     setCategory(newCategory)
     //   }
-
+    const flashMessage = (newMessage:string|null): void => {
+        setMessage(newMessage)
+       
+      }
 
     return (
     <>
@@ -66,6 +72,7 @@ export default function ToDoDisplay({ toDos, onDelete, onEdit}: ToDoDisplayProps
 
                                     <button className="btn btn-secondary"
                                     onClick={handleEditCancel}>Cancel</button>
+                                   
                                     </>
                                 ) : (
                                     <>
@@ -73,9 +80,11 @@ export default function ToDoDisplay({ toDos, onDelete, onEdit}: ToDoDisplayProps
                                     <button className="btn btn-danger"
                                     onClick={() => onDelete(task)}>
                                         DELETE</button>
+                                        <AlertMessage message='DELETED' category={category} flashMessage={flashMessage}/>
                                        
                                         <button className="btn btn-primary"
-                                    onClick={() => handleEditStart(index, task)} >
+                                    onClick={() => 
+                                    handleEditStart(index, task)}>
                                         Edit</button>
                                     </>
                                     

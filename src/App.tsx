@@ -5,10 +5,14 @@ import ToDoDisplay from "./components/ToDoDisplay"
 import { useState } from "react"
 import { MouseEventHandler } from "react"
 import './App.css'
+import AlertMessage from "./components/AlertMessage"
 // import ToDoDisplay from './components/ToDoDisplay'
 
 export default function App() {
   const [toDos, setToDos] = useState<string[]>([]);
+  
+  const [message, setMessage] = useState<string|null>(null)
+  // const [category, setCategory] = useState<CategoryType|null>(null)
   
   const handleFormSubmit = (event: React.FormEvent) => {
       event.preventDefault();
@@ -20,9 +24,15 @@ export default function App() {
 
    const deleteToDo = (taskToDelete: string) => {
     setToDos((prevToDos) => {
-      // flashMessage('DELETED')
       return prevToDos.filter((task) => task !== taskToDelete)
     })
+    alert('DELETED')
+    
+  }
+
+  const flashMessage = (newMessage:string|null): void => {
+    setMessage(newMessage)
+   
   }
   // const flashMessage = (newMessage:string|null, newCategory: CategoryType|null): void => {
   //   setMessage(newMessage)
