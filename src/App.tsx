@@ -1,18 +1,20 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navigation from "./components/Navigation";
 import Container from "react-bootstrap/Container";
 import ToDoForm from "./components/ToDoForm";
 import ToDoDisplay from "./components/ToDoDisplay";
 import { useState } from "react";
 import { MouseEventHandler } from "react";
-// import "./App.css";
 import AlertMessage from "./components/AlertMessage";
-// import ToDoDisplay from './components/ToDoDisplay'
+import CategoryType from "./types/category";
+
 import "./main.css"
 
 export default function App() {
   const [toDos, setToDos] = useState<string[]>([]);
 
   const [message, setMessage] = useState<string | null>(null);
+  const [category, setCategory] = useState<CategoryType|null>(null);
   // const [category, setCategory] = useState<CategoryType|null>(null)
 
   const handleFormSubmit = (event: React.FormEvent) => {
@@ -21,6 +23,8 @@ export default function App() {
     let task = form.task.value;
     setToDos([...toDos, task]);
     form.task.value = "";
+    flashMessage('Task Added', 'success')
+    console.log('HERE IN FORSUBMIT function')
   };
 // NEED TO LOOK AT .MouseEventHandler
 
@@ -28,18 +32,14 @@ export default function App() {
     setToDos((prevToDos) => {
       return prevToDos.filter((task) => task !== taskToDelete);
     });
-    alert("DELETED");
-    // flashMessage('deleted')
+    flashMessage('deleted', 'danger')
+    console.log('HERE IN DELETE FUNCTION')
   };
 
-  const flashMessage = (newMessage: string | null): void => {
+  const flashMessage = (newMessage:string|null, newCategory:CategoryType|null):void => {
     setMessage(newMessage);
     setCategory(newCategory);
-  };
-  // const flashMessage = (newMessage:string|null, newCategory: CategoryType|null): void => {
-  //   setMessage(newMessage)
-  //   setCategory(newCategory)
-  // }
+  }
 
   // const handleDeleteClick = (event:React.MouseEventHandler<HTMLElement, 'Click'>): void => {
   //   const newtoDos = toDos.filter((task, index) => (
@@ -50,9 +50,10 @@ export default function App() {
     <>
       <Navigation username="Mara Jade" />
       <Container>
-        <ToDoForm handleSubmit={handleFormSubmit} />
+      {message && category && <AlertMessage message={message} category={category!} flashMessage={flashMessage}/>}
+        <ToDoForm handleSubmit={handleFormSubmit} flashMessage={flashMessage} />
         <ToDoDisplay toDos={toDos} onDelete={deleteToDo} />
-        {}
+        
       </Container>
     </>
   );

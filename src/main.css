@@ -1,5 +1,6 @@
-body {
+* {
     background-color: black;
+    color: white;
 }
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
